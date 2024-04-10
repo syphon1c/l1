@@ -2,6 +2,7 @@
 
 namespace RenokiCo\L1;
 
+use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 
 abstract class CloudflareConnector extends Connector
@@ -11,7 +12,11 @@ abstract class CloudflareConnector extends Connector
         public ?string $accountId = null,
         public string $apiUrl = 'https://api.cloudflare.com/client/v4',
     ) {
-        $this->withTokenAuth($token);
+    }
+
+    protected function defaultAuth(): TokenAuthenticator
+    {
+        return new TokenAuthenticator($this->token);
     }
 
     public function resolveBaseUrl(): string
